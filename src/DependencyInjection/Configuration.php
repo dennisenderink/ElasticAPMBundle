@@ -9,9 +9,10 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('divـlooper_elastic_apm');
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('divـlooper_elastic_apm');
 
-        $treeBuilder->getRootNode()
+        $rootNode
             ->children()
                 ->booleanNode('enabled')->defaultTrue()->end()
                 ->scalarNode('app_name')->defaultValue('Symfony App')->end()
