@@ -12,6 +12,19 @@ services:
         arguments:
             - '@DivLooper\ElasticAPMBundle\ElasticAPMAgent'
 
+    divlooper_elastic.apm.console.command:
+        class: DivLooper\ElasticAPMBundle\EventListener\ConsoleListener
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: onConsoleCommand, priority: -2048 }
+        arguments:
+            - '@DivLooper\ElasticAPMBundle\ElasticAPMAgent'
+    divlooper_elastic.apm.console.terminate:
+        class: DivLooper\ElasticAPMBundle\EventListener\ConsoleListener
+        tags:
+            - { name: kernel.event_listener, event: console.terminate, method: onConsoleTerminate, priority: -2048 }
+        arguments:
+            - '@DivLooper\ElasticAPMBundle\ElasticAPMAgent'
+
     DivLooper\ElasticAPMBundle\ElasticAPMAgent:
         arguments:
             - null
