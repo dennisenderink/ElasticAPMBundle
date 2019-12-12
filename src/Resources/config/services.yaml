@@ -5,6 +5,12 @@ services:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 31 }
         arguments:
             - '@DivLooper\ElasticAPMBundle\ElasticAPMAgent'
+    divlooper_elastic.apm.kernel.exception:
+        class: DivLooper\ElasticAPMBundle\EventListener\RequestListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: -2048 }
+        arguments:
+            - '@DivLooper\ElasticAPMBundle\ElasticAPMAgent'
     divlooper_elastic.apm.kernel.terminate:
         class: DivLooper\ElasticAPMBundle\EventListener\RequestListener
         tags:
@@ -16,6 +22,12 @@ services:
         class: DivLooper\ElasticAPMBundle\EventListener\ConsoleListener
         tags:
             - { name: kernel.event_listener, event: console.command, method: onConsoleCommand, priority: -2048 }
+        arguments:
+            - '@DivLooper\ElasticAPMBundle\ElasticAPMAgent'
+    divlooper_elastic.apm.console.error:
+        class: DivLooper\ElasticAPMBundle\EventListener\ConsoleListener
+        tags:
+            - { name: kernel.event_listener, event: console.error, method: onConsoleError, priority: -2048 }
         arguments:
             - '@DivLooper\ElasticAPMBundle\ElasticAPMAgent'
     divlooper_elastic.apm.console.terminate:

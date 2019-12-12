@@ -4,6 +4,7 @@ namespace DivLooper\ElasticAPMBundle\EventListener;
 
 use DivLooper\ElasticAPMBundle\ElasticAPMAgent;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 /**
@@ -27,9 +28,20 @@ class ConsoleListener
      */
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
+        // get command
         $command = $event->getCommand();
 
+        // start transaction
         $this->apm->agent->startTransaction($command->getName());
+    }
+
+    /**
+     * @param ConsoleErrorEvent $event
+     */
+    public function onConsoleError(ConsoleErrorEvent $event)
+    {
+        // register exception
+        $this->apm->agent->captureThrowable($event->getError());
     }
 
     /**
@@ -38,9 +50,12 @@ class ConsoleListener
      */
     public function onConsoleTerminate(ConsoleTerminateEvent $event)
     {
+        // get command
         $command = $event->getCommand();
 
+        // stop transaction (retrieve meta data and so forth)
         $this->apm->agent->stopTransaction($command->getName());
+        // send data to apm server
         $this->apm->agent->send();
     }
 }
