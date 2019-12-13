@@ -3,7 +3,7 @@
     "description": "Elastic APM Client for Symfony",
     "type": "symfony-bundle",
     "require": {
-        "philkra/elastic-apm-php-agent": "^6.4"
+        "philkra/elastic-apm-php-agent": "^6.5"
     },
     "license": "MIT",
     "keywords": ["elastic", "apm"],
